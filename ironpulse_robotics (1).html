@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IronPulse Robotics — Dubai</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050810;
+    --deep: #080d1a;
+    --navy: #0a1628;
+    --blue: #0066ff;
+    --blue-mid: #0044cc;
+    --blue-glow: #004aff;
+    --blue-light: #3385ff;
+    --blue-pale: #cce0ff;
+    --white: #ffffff;
+    --gray: #8899bb;
+    --gray-dark: #1a2440;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--blue);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(0,102,255,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* GRID BACKGROUND */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,102,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,102,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 60px;
+    background: linear-gradient(to bottom, rgba(5,8,16,0.95), transparent);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--blue); }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray);
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cta {
+    background: var(--blue);
+    color: var(--white) !important;
+    padding: 10px 24px;
+    font-size: 12px !important;
+    letter-spacing: 1.5px !important;
+    transition: background 0.2s, transform 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--blue-light) !important; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 60px;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(0,102,255,0.18) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-20%, -50%);
+    pointer-events: none;
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.8; transform: translate(-20%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-20%, -50%) scale(1.08); }
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 700px; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,102,255,0.1);
+    border: 1px solid rgba(0,102,255,0.3);
+    padding: 6px 16px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 32px;
+    animation: fade-up 0.8s ease both;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--blue);
+    border-radius: 50%;
+    animation: blink 1.5s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 10vw, 130px);
+    line-height: 0.92;
+    letter-spacing: 2px;
+    margin-bottom: 28px;
+    animation: fade-up 0.8s 0.15s ease both;
+  }
+  .hero-title .blue { color: var(--blue); }
+  .hero-title .outline {
+    -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+    color: transparent;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--gray);
+    max-width: 480px;
+    margin-bottom: 48px;
+    font-weight: 300;
+    animation: fade-up 0.8s 0.3s ease both;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    animation: fade-up 0.8s 0.45s ease both;
+  }
+
+  .btn-primary {
+    background: var(--blue);
+    color: var(--white);
+    padding: 16px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: none;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 30px rgba(0,102,255,0.4);
+  }
+  .btn-primary:hover {
+    background: var(--blue-light);
+    transform: translateY(-2px);
+    box-shadow: 0 0 50px rgba(0,102,255,0.6);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    padding: 16px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    cursor: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+
+  .hero-stats {
+    position: absolute;
+    right: 60px;
+    bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    z-index: 2;
+    animation: fade-up 0.8s 0.6s ease both;
+  }
+  .stat-item { text-align: right; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--white);
+    line-height: 1;
+  }
+  .stat-num span { color: var(--blue); }
+  .stat-label {
+    font-size: 11px;
+    color: var(--gray);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .scroll-line {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+    z-index: 2;
+  }
+  .scroll-line::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--blue);
+    animation: line-grow 2s ease-in-out infinite;
+  }
+  @keyframes line-grow { 0%,100%{width:40px} 50%{width:70px} }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,102,255,0.4), transparent);
+    margin: 0 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ROBOTS SECTION */
+  .robots {
+    position: relative;
+    z-index: 1;
+    padding: 120px 60px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 5vw, 72px);
+    line-height: 1;
+    margin-bottom: 60px;
+    letter-spacing: 1px;
+  }
+
+  .robots-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .robot-card {
+    position: relative;
+    background: var(--navy);
+    padding: 60px 50px;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .robot-card:hover { background: #0d1e3a; }
+
+  .robot-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--blue);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .robot-card:hover::before { transform: scaleX(1); }
+
+  .robot-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 140px;
+    line-height: 1;
+    color: rgba(0,102,255,0.08);
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    transition: color 0.3s;
+  }
+  .robot-card:hover .robot-letter { color: rgba(0,102,255,0.12); }
+
+  .robot-tag {
+    display: inline-block;
+    background: rgba(0,102,255,0.15);
+    border: 1px solid rgba(0,102,255,0.3);
+    color: var(--blue-light);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    margin-bottom: 24px;
+  }
+
+  .robot-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+
+  .robot-type {
+    font-size: 12px;
+    color: var(--blue);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    font-weight: 600;
+  }
+
+  .robot-desc {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--gray);
+    max-width: 380px;
+    margin-bottom: 36px;
+    font-weight: 300;
+  }
+
+  .robot-traits {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .trait {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+  }
+  .trait::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--blue);
+    flex-shrink: 0;
+  }
+
+  /* SERVICES */
+  .services {
+    position: relative;
+    z-index: 1;
+    padding: 120px 60px;
+    background: var(--deep);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .service-card {
+    background: var(--navy);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .service-card:hover { background: #0d1e3a; transform: translateY(-4px); }
+
+  .service-icon {
+    width: 48px; height: 48px;
+    background: rgba(0,102,255,0.1);
+    border: 1px solid rgba(0,102,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    font-size: 20px;
+  }
+
+  .service-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--white);
+  }
+
+  .service-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--gray);
+    font-weight: 300;
+  }
+
+  .service-num {
+    position: absolute;
+    bottom: 24px;
+    right: 28px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 60px;
+    color: rgba(0,102,255,0.06);
+    line-height: 1;
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    position: relative;
+    z-index: 1;
+    padding: 40px 0;
+    background: var(--blue);
+    overflow: hidden;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 60px;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.9);
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    flex-shrink: 0;
+  }
+  .marquee-dot {
+    width: 6px; height: 6px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ABOUT */
+  .about {
+    position: relative;
+    z-index: 1;
+    padding: 120px 60px;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+
+  .about-visual {
+    position: relative;
+    height: 500px;
+  }
+
+  .about-box-main {
+    position: absolute;
+    inset: 0;
+    background: var(--navy);
+    border: 1px solid rgba(0,102,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .about-box-main::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(0,102,255,0.12), transparent 70%);
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+
+  .about-center-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: rgba(0,102,255,0.15);
+    letter-spacing: 4px;
+    text-align: center;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .about-badge {
+    position: absolute;
+    background: var(--blue);
+    padding: 20px 28px;
+    bottom: -20px;
+    right: -20px;
+    z-index: 2;
+  }
+  .about-badge-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    line-height: 1;
+  }
+  .about-badge-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.8);
+    margin-top: 2px;
+  }
+
+  .about-corner {
+    position: absolute;
+    top: -16px;
+    left: -16px;
+    width: 60px; height: 60px;
+    background: var(--deep);
+    border: 1px solid rgba(0,102,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  .about-corner-dot {
+    width: 8px; height: 8px;
+    background: var(--blue);
+    border-radius: 50%;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  .about-content .section-title { margin-bottom: 24px; }
+
+  .about-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--gray);
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .about-pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .pillar {
+    background: var(--navy);
+    border-left: 2px solid var(--blue);
+    padding: 18px 20px;
+  }
+  .pillar-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .pillar-desc {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+
+  /* CONTACT */
+  .contact {
+    position: relative;
+    z-index: 1;
+    padding: 120px 60px;
+    background: var(--deep);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 60px;
+  }
+
+  .contact-info { display: flex; flex-direction: column; gap: 36px; }
+
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .contact-icon {
+    width: 44px; height: 44px;
+    background: rgba(0,102,255,0.1);
+    border: 1px solid rgba(0,102,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .contact-item-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--blue);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .contact-item-value {
+    font-size: 15px;
+    color: var(--white);
+    line-height: 1.5;
+  }
+  .contact-item-value a {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-item-value a:hover { color: var(--blue-light); }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+
+  .form-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    font-weight: 600;
+  }
+
+  .form-input, .form-textarea {
+    background: var(--navy);
+    border: 1px solid rgba(0,102,255,0.15);
+    color: var(--white);
+    padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  .form-input:focus, .form-textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(0,102,255,0.1);
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.2); }
+
+  .form-textarea { resize: vertical; min-height: 120px; }
+
+  .form-submit {
+    background: var(--blue);
+    color: var(--white);
+    border: none;
+    padding: 16px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    align-self: flex-start;
+    box-shadow: 0 0 24px rgba(0,102,255,0.3);
+  }
+  .form-submit:hover {
+    background: var(--blue-light);
+    box-shadow: 0 0 40px rgba(0,102,255,0.5);
+    transform: translateY(-2px);
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    padding: 48px 60px;
+    border-top: 1px solid rgba(0,102,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--blue); }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 12px;
+    color: var(--gray);
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--blue-light); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.5px;
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* INSTAGRAM CTA */
+  .ig-cta {
+    position: relative;
+    z-index: 1;
+    padding: 80px 60px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .ig-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0,102,255,0.15) 0%, transparent 70%);
+  }
+  .ig-cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .ig-cta-sub {
+    font-size: 15px;
+    color: var(--gray);
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .ig-handle {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0,102,255,0.1);
+    border: 1px solid rgba(0,102,255,0.3);
+    padding: 16px 32px;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--blue-light);
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+    position: relative;
+  }
+  .ig-handle:hover {
+    background: rgba(0,102,255,0.2);
+    border-color: var(--blue);
+    color: var(--white);
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">IRON<span>PULSE</span></a>
+  <ul class="nav-links">
+    <li><a href="#robots">The Team</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Live from Dubai 🇦🇪 · Real Robots · No CGI</div>
+    <h1 class="hero-title">
+      IRON<span class="blue">PULSE</span><br>
+      <span class="outline">ROBOTICS</span>
+    </h1>
+    <p class="hero-sub">Meet Ben & Jerry — a humanoid and a robodog redefining what robotics looks like. Not a demo. Not a render. The real thing, operating in Dubai.</p>
+    <div class="hero-buttons">
+      <a href="#robots" class="btn-primary">Meet the Robots</a>
+      <a href="#contact" class="btn-secondary">Work With Us</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">2<span>+</span></div>
+      <div class="stat-label">Active Robots</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">1<span>st</span></div>
+      <div class="stat-label">In Dubai</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">24<span>/7</span></div>
+      <div class="stat-label">Operational</div>
+    </div>
+  </div>
+
+  <div class="scroll-line">Scroll to explore</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item">HUMANOID ROBOTICS <span class="marquee-dot"></span> ROBODOG <span class="marquee-dot"></span> DUBAI <span class="marquee-dot"></span> REAL HARDWARE <span class="marquee-dot"></span> NO CGI <span class="marquee-dot"></span> IRONPULSE ROBOTICS <span class="marquee-dot"></span> BEN & JERRY <span class="marquee-dot"></span> THE FUTURE IS NOW <span class="marquee-dot"></span></div>
+    <div class="marquee-item">HUMANOID ROBOTICS <span class="marquee-dot"></span> ROBODOG <span class="marquee-dot"></span> DUBAI <span class="marquee-dot"></span> REAL HARDWARE <span class="marquee-dot"></span> NO CGI <span class="marquee-dot"></span> IRONPULSE ROBOTICS <span class="marquee-dot"></span> BEN & JERRY <span class="marquee-dot"></span> THE FUTURE IS NOW <span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- ROBOTS -->
+<section class="robots" id="robots">
+  <div class="reveal">
+    <div class="section-label">The Team</div>
+    <h2 class="section-title">MEET BEN <span style="color:var(--blue)">&</span> JERRY</h2>
+  </div>
+  <div class="robots-grid">
+    <div class="robot-card reveal reveal-delay-1">
+      <div class="robot-letter">B</div>
+      <div class="robot-tag">Humanoid Robot</div>
+      <div class="robot-name">BEN</div>
+      <div class="robot-type">Bipedal · Autonomous</div>
+      <p class="robot-desc">Walks upright. Follows instructions. Takes his job very seriously — we do not. Ben handles precision tasks, demos, and just about anything that requires two legs and a serious attitude.</p>
+      <div class="robot-traits">
+        <div class="trait">Upright locomotion & stair navigation</div>
+        <div class="trait">Precision balance & movement</div>
+        <div class="trait">Personality: Dignified, slightly dramatic</div>
+      </div>
+    </div>
+    <div class="robot-card reveal reveal-delay-2">
+      <div class="robot-letter">J</div>
+      <div class="robot-tag">Robodog</div>
+      <div class="robot-name">JERRY</div>
+      <div class="robot-type">Quadruped · Adaptive</div>
+      <p class="robot-desc">Four legs. Zero chill. Jerry responds to commands, navigates any terrain, and has an extraordinary talent for stealing every scene he enters. He is not sorry about it.</p>
+      <div class="robot-traits">
+        <div class="trait">Four-leg terrain adaptability</div>
+        <div class="trait">High-speed autonomous navigation</div>
+        <div class="trait">Personality: Chaotic, loveable, extra</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="reveal">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title">ROBOTICS FOR THE<br><span style="color:var(--blue)">REAL WORLD</span></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-icon">🎬</div>
+      <div class="service-title">Live Demonstrations</div>
+      <p class="service-desc">Real robots, live. Corporate events, exhibitions, and public showcases across Dubai and the UAE. Ben and Jerry in action — no pre-recorded footage.</p>
+      <div class="service-num">01</div>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-icon">🤝</div>
+      <div class="service-title">Brand Activations</div>
+      <p class="service-desc">Put a humanoid and a robodog at your next activation. Nothing commands attention like two robots that actually work. Guaranteed impressions.</p>
+      <div class="service-num">02</div>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-icon">🎓</div>
+      <div class="service-title">Education & Research</div>
+      <p class="service-desc">School visits, university programmes, and research partnerships. Bring real robotics into the classroom — not just a video, not a model kit.</p>
+      <div class="service-num">03</div>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-icon">📹</div>
+      <div class="service-title">Content & Media</div>
+      <p class="service-desc">Need robots for a shoot, campaign, or production? Ben and Jerry are camera-ready. No CGI required — and that is kind of the whole point.</p>
+      <div class="service-num">04</div>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-icon">🏢</div>
+      <div class="service-title">Corporate Consulting</div>
+      <p class="service-desc">Exploring robotics for your business? We help companies understand what humanoid and quadruped robotics can actually do — today, not in five years.</p>
+      <div class="service-num">05</div>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-icon">🔧</div>
+      <div class="service-title">Custom Integration</div>
+      <p class="service-desc">Bespoke robotics solutions tailored to your operation. From concept to deployment — we build what your business actually needs.</p>
+      <div class="service-num">06</div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM CTA -->
+<div class="ig-cta reveal">
+  <h2 class="ig-cta-title">FOLLOW THE <span style="color:var(--blue)">CHAOS</span></h2>
+  <p class="ig-cta-sub">Ben & Jerry post weekly. New content, new moves, new reasons to worry about the future.</p>
+  <a href="https://instagram.com/ironpulserobotics" class="ig-handle" target="_blank">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    @ironpulserobotics
+  </a>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-box-main">
+        <div class="about-center-text">BEN<br>&<br>JERRY</div>
+      </div>
+      <div class="about-badge">
+        <div class="about-badge-num">Dubai</div>
+        <div class="about-badge-label">Based & Operated</div>
+      </div>
+      <div class="about-corner">
+        <div class="about-corner-dot"></div>
+      </div>
+    </div>
+    <div class="about-content reveal reveal-delay-2">
+      <div class="section-label">About IronPulse</div>
+      <h2 class="section-title">THE HUMANS<br>BEHIND THE <span style="color:var(--blue)">MACHINES</span></h2>
+      <p class="about-text">IronPulse Robotics is Dubai's home for real, operational humanoid and quadruped robotics. We do not build robots in a lab and wait for permission to show them to the world — we take them out into it.</p>
+      <p class="about-text">Ben and Jerry are not prototypes. They are working robots with personalities, capabilities, and a growing audience that has no idea what they're going to do next.</p>
+      <div class="about-pillars">
+        <div class="pillar">
+          <div class="pillar-title">Real Hardware</div>
+          <div class="pillar-desc">No CGI. No renders. Every video is live.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-title">Based in Dubai</div>
+          <div class="pillar-desc">Al Quoz 4 · Operating across UAE</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-title">Humanoid + Dog</div>
+          <div class="pillar-desc">Two platforms. Double the capability.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-title">Content Weekly</div>
+          <div class="pillar-desc">New demos every week on Instagram.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="reveal">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">LET'S <span style="color:var(--blue)">CONNECT</span></h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="contact-item reveal reveal-delay-1">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-item-label">Our Location</div>
+          <div class="contact-item-value">P.O. Box 282542, 10th Street<br>Al Quoz 4, Dubai, UAE</div>
+        </div>
+      </div>
+      <div class="contact-item reveal reveal-delay-2">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <div class="contact-item-label">Email Address</div>
+          <div class="contact-item-value"><a href="/cdn-cgi/l/email-protection#c9a0a7afa689b0a6bca8a7adacb0ace7a8ac"><span class="__cf_email__" data-cfemail="afc6c1c9c0efd6c0dacec1cbcad6ca81ceca">[email&#160;protected]</span></a></div>
+        </div>
+      </div>
+      <div class="contact-item reveal reveal-delay-3">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-item-label">Phone Number</div>
+          <div class="contact-item-value"><a href="tel:+97143417424">+971 4 341 7424</a></div>
+        </div>
+      </div>
+      <div class="contact-item reveal reveal-delay-4">
+        <div class="contact-icon">📸</div>
+        <div>
+          <div class="contact-item-label">Follow Us</div>
+          <div class="contact-item-value"><a href="https://instagram.com/ironpulserobotics" target="_blank">@ironpulserobotics</a><br><span style="font-size:12px;color:var(--gray)">#benandjerryrobots</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form reveal reveal-delay-2" style="display:flex;align-items:center;justify-content:center;">
+      <a href="https://wa.me/97143417424?text=Hi%20I%20want%20to%20book%20a%20demo" class="form-submit" target="_blank"> Book a Demo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">IRON<span>PULSE</span> ROBOTICS</div>
+  <ul class="footer-links">
+    <li><a href="#robots">The Team</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 IronPulse Robotics · Dubai, UAE</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .robot-card, .service-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
+      ring.style.width = '56px';
+      ring.style.height = '56px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px';
+      cursor.style.height = '12px';
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.

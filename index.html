@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1071,7 +1072,7 @@
         <div class="contact-icon">✉️</div>
         <div>
           <div class="contact-item-label">Email Address</div>
-          <div class="contact-item-value"><a href="/cdn-cgi/l/email-protection#c9a0a7afa689b0a6bca8a7adacb0ace7a8ac"><span class="__cf_email__" data-cfemail="afc6c1c9c0efd6c0dacec1cbcad6ca81ceca">[email&#160;protected]</span></a></div>
+          <div class="contact-item-value"><a href="mailto:info@youandeye.ae">info@youandeye.ae</a></div>
         </div>
       </div>
       <div class="contact-item reveal reveal-delay-3">
@@ -1090,8 +1091,30 @@
       </div>
     </div>
 
-    <div class="contact-form reveal reveal-delay-2" style="display:flex;align-items:center;justify-content:center;">
-      <a href="https://wa.me/97143417424?text=Hi%20I%20want%20to%20book%20a%20demo" class="form-submit" target="_blank"> Book a Demo →</a>
+    <div class="contact-form reveal reveal-delay-2">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-input" placeholder="Ahmed">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-input" placeholder="Al Mansoori">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="you@company.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Subject</label>
+        <input type="text" class="form-input" placeholder="Event demo, collaboration, media...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Tell us what you have in mind..."></textarea>
+      </div>
+      <button class="form-submit">Send Message →</button>
     </div>
   </div>
 </section>
@@ -1108,7 +1131,7 @@
   <div class="footer-copy">© 2026 IronPulse Robotics · Dubai, UAE</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // Custom cursor
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
@@ -1147,4 +1170,14 @@
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver(entries => {
-    entries.
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
